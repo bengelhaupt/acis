@@ -27,8 +27,8 @@ import de.bensoft.acis.utils.SimpleHTTPGetRequestSender;
 
 /**
  * This is a Language for the ACIS system representing German. See the
- * {@link de.bensoft.acis.system.Language} interface for more information on
- * creating own Languages.
+ * {@link de.bensoft.acis.core.language.Language} interface for more information
+ * on creating own Languages.
  *
  * This should be taken as an example for a Language implementation.
  */

@@ -14,9 +14,9 @@ import de.bensoft.acis.core.ACIS;
  * from. Such information is e.g. a {@link Word} or a {@link SentenceObjectSet}.
  * <br>
  * A Language interface must not be abstract! <br>
- * See the example on <a
- * href="http://bensoft.de/projects/acis>http://bensoft.de/projects/acis</a> on
- * how to create your own Language interface.
+ * See the example on
+ * <a href="http://bensoft.de/projects/acis">http://bensoft.de/projects/acis</a>
+ * on how to create your own Language interface.
  *
  */
 public interface Language {
