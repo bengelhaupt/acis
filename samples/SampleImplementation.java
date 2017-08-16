@@ -243,7 +243,7 @@ public class SampleImplementation {
 			}
 
 			// Establish a Server
-			Server s = new Server(4965);
+			Server s = new Server(4964);
 			s.addUser(new User("sample", "samplepassword"));
 			s.addUser(new User("restrictedsample", "samplepassword", new String[] { "/restrictedpath" }));
 			s.registerContext(new ServerContext("/request", mySystem, new SampleRequestHandler(), true));
