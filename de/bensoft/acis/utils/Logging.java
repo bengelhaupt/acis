@@ -211,7 +211,7 @@ public class Logging {
 		/**
 		 * Gets the Logger.
 		 * 
-		 * @return The Logger. if the Logger was not set previously, a new one
+		 * @return The Logger. If the Logger was not set previously, a new one
 		 *         with the file "./default.log" is created. Returns
 		 *         {@code null} when there is an IOException creating a Logger.
 		 */
