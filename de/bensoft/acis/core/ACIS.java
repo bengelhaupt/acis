@@ -302,7 +302,7 @@ public class ACIS {
 	 * describes the score threshold under which no parameter analysis is
 	 * performed. This setting is due to performance improvements, because
 	 * otherwise a parameter parsing would be performed on all Actions. Note:
-	 * The score after length and word comparison is used as reference.
+	 * The score after length, context and word comparison is used as reference.
 	 * 
 	 * @return The parameter matching threshold. Default is 0.3.
 	 */
@@ -314,8 +314,8 @@ public class ACIS {
 	 * Sets the parameter matching threshold. This value describes the score
 	 * threshold under which no parameter analysis is performed. This setting is
 	 * due to performance improvements, because otherwise a parameter parsing
-	 * would be performed on all Actions. Note: The score after length and word
-	 * comparison is used as reference.
+	 * would be performed on all Actions. Note: The score after length, context
+	 * and word comparison is used as reference.
 	 * 
 	 * @param matcherParameterThreshold
 	 *            The parameter threshold. Value must be between 0 and 1.

@@ -36,6 +36,8 @@ class Matcher extends Loggable {
 	 *            The {@link Language} to use.
 	 * @param actions
 	 *            The {@link Action}s to compare the input with.
+	 * @param parameterThreshold
+	 *            The parameter matching threshold.
 	 */
 	public Matcher(Language language, Action[] actions, float parameterThreshold) {
 		mActions = actions;
@@ -72,7 +74,7 @@ class Matcher extends Loggable {
 		for (Action i : mActions) {
 			float score = 0;
 			float maxpossible = 0;
-
+			
 			// Matching of length
 			maxpossible += sentence.getParts().length * weightset.Length;
 			int diff = Math.abs(sentence.getParts().length - Sentence.splitUpAction(i.getTrigger()).length);
@@ -120,6 +122,44 @@ class Matcher extends Loggable {
 				maxpossible += curmaxpossible;
 			}
 
+			// matching context
+			if (generalContext.getItems().length > 0) {
+				float ageMultiplier = weightset.ContextStageOutdatedMultiplier;
+				long age = generalContext.getItems()[0].getAge();
+				if (age < 300000)
+					ageMultiplier = weightset.ContextStageRecentMultiplier;
+				if (age < 60000)
+					ageMultiplier = weightset.ContextStageCurrentMultiplier;
+				if (age < 10000)
+					ageMultiplier = weightset.ContextStageImmediateMultiplier;
+
+				Action action = generalContext.getItems()[0].getAction();
+
+				// same context
+				String prevContext = "";
+				if (action instanceof ContextConstructorAction)
+					prevContext = ((ContextConstructorAction) action).getContextId();
+				if (action instanceof ContextDependentAction)
+					prevContext = ((ContextDependentAction) action).getDependingContextId();
+
+				String currentContext = "";
+				if (i instanceof ContextConstructorAction)
+					currentContext = ((ContextConstructorAction) i).getContextId();
+				if (i instanceof ContextDependentAction)
+					currentContext = ((ContextDependentAction) i).getDependingContextId();
+
+				if (prevContext != "" && prevContext.equals(currentContext)) {
+					score += ageMultiplier * weightset.ContextPreviousSameContext;
+					maxpossible += ageMultiplier * weightset.ContextPreviousSameContext;
+				} else {
+					// same ActionPackage
+					if (action.getPackage().equals(i.getPackage())) {
+						score += ageMultiplier * weightset.ContextPreviousSameActionPackage;
+						maxpossible += ageMultiplier * weightset.ContextPreviousSameActionPackage;
+					}
+				}
+			}
+			
 			ArrayList<Parameter> parameter = new ArrayList<Parameter>(0);
 			if ((score / maxpossible) > mParameterThreshold) {
 				// Matching of Parameters
@@ -216,44 +256,6 @@ class Matcher extends Loggable {
 				if (inputparams.length != 0)
 					score += inputparams.length * ((float) parameter.size() / inputparams.length)
 							* weightset.ParameterCount;
-
-				// matching context
-				if (generalContext.getItems().length > 0) {
-					float ageMultiplier = weightset.ContextStageOutdatedMultiplier;
-					long age = generalContext.getItems()[0].getAge();
-					if (age < 300000)
-						ageMultiplier = weightset.ContextStageRecentMultiplier;
-					if (age < 60000)
-						ageMultiplier = weightset.ContextStageCurrentMultiplier;
-					if (age < 10000)
-						ageMultiplier = weightset.ContextStageImmediateMultiplier;
-
-					Action action = generalContext.getItems()[0].getAction();
-
-					// same context
-					String prevContext = "";
-					if (action instanceof ContextConstructorAction)
-						prevContext = ((ContextConstructorAction) action).getContextId();
-					if (action instanceof ContextDependentAction)
-						prevContext = ((ContextDependentAction) action).getDependingContextId();
-
-					String currentContext = "";
-					if (i instanceof ContextConstructorAction)
-						currentContext = ((ContextConstructorAction) i).getContextId();
-					if (i instanceof ContextDependentAction)
-						currentContext = ((ContextDependentAction) i).getDependingContextId();
-
-					if (prevContext != "" && prevContext.equals(currentContext)) {
-						score += ageMultiplier * weightset.ContextPreviousSameContext;
-						maxpossible += ageMultiplier * weightset.ContextPreviousSameContext;
-					} else {
-						// same ActionPackage
-						if (action.getPackage().equals(i.getPackage())) {
-							score += ageMultiplier * weightset.ContextPreviousSameActionPackage;
-							maxpossible += ageMultiplier * weightset.ContextPreviousSameActionPackage;
-						}
-					}
-				}
 			}
 
 			score = score / maxpossible;
@@ -273,7 +275,6 @@ class Matcher extends Loggable {
 				results.add(new MatchResult(i, score, params));
 			}
 		}
-
 		getLogger().i(LOG_TAG, "Matcher finished with " + String.valueOf(results.size()) + " results.");
 
 		return results.toArray(new MatchResult[results.size()]);
