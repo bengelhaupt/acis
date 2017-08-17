@@ -41,7 +41,7 @@ public class BensoftGermanWiktionary extends Loggable implements Language {
 	public Sentence getSentence(String inputtext) {
 		getLogger().i(LOG_TAG, "Analyzing Sentence '" + inputtext + "'");
 		Sentence s = new Sentence(inputtext);
-		
+
 		// defining the sentence type based on it's ending character
 		Sentence.SentenceType type;
 		if (s.getText().trim().endsWith("?")) {
@@ -205,7 +205,7 @@ public class BensoftGermanWiktionary extends Loggable implements Language {
 				hows.toArray(new SentenceObject[hows.size()]), elses.toArray(new SentenceObject[elses.size()]));
 	}
 
-	public Word getWord(String word) {long start, time;
+	public Word getWord(String word) {
 		try {
 			if (mCache.isInCache(word)) {
 				Word w = mCache.readFromCache(word);
