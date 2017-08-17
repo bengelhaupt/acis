@@ -39,10 +39,9 @@ public class BensoftGermanWiktionary extends Loggable implements Language {
 	private WordCache mCache;
 
 	public Sentence getSentence(String inputtext) {
-		getLogger().i(LOG_TAG, "Starting to analyze Sentence '" + inputtext + "'");
-
+		getLogger().i(LOG_TAG, "Analyzing Sentence '" + inputtext + "'");
 		Sentence s = new Sentence(inputtext);
-
+		
 		// defining the sentence type based on it's ending character
 		Sentence.SentenceType type;
 		if (s.getText().trim().endsWith("?")) {
@@ -94,8 +93,6 @@ public class BensoftGermanWiktionary extends Loggable implements Language {
 
 		s.setType(type);
 		s.setWords(analyzedWords);
-
-		getLogger().i(LOG_TAG, "Sentence successfully analyzed");
 
 		return s;
 	}
@@ -203,14 +200,12 @@ public class BensoftGermanWiktionary extends Loggable implements Language {
 			}
 		}
 
-		getLogger().i(LOG_TAG, "Getting the SentenceObjects was successful");
-
 		return new SentenceObjectSet(actions.toArray(new SentenceObject[actions.size()]),
 				whats.toArray(new SentenceObject[whats.size()]), whos.toArray(new SentenceObject[whos.size()]),
 				hows.toArray(new SentenceObject[hows.size()]), elses.toArray(new SentenceObject[elses.size()]));
 	}
 
-	public Word getWord(String word) {
+	public Word getWord(String word) {long start, time;
 		try {
 			if (mCache.isInCache(word)) {
 				Word w = mCache.readFromCache(word);

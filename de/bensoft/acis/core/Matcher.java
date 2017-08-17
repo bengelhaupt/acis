@@ -74,7 +74,7 @@ class Matcher extends Loggable {
 		for (Action i : mActions) {
 			float score = 0;
 			float maxpossible = 0;
-			
+
 			// Matching of length
 			maxpossible += sentence.getParts().length * weightset.Length;
 			int diff = Math.abs(sentence.getParts().length - Sentence.splitUpAction(i.getTrigger()).length);
@@ -159,7 +159,7 @@ class Matcher extends Loggable {
 					}
 				}
 			}
-			
+
 			ArrayList<Parameter> parameter = new ArrayList<Parameter>(0);
 			if ((score / maxpossible) > mParameterThreshold) {
 				// Matching of Parameters

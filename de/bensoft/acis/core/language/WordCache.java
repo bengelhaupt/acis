@@ -109,38 +109,37 @@ public class WordCache extends Loggable {
 	 * @throws IllegalArgumentException
 	 *             When {@code word} is not present in the cache.
 	 */
-	public Word readFromCache(String word) throws IllegalArgumentException {
+	public Word readFromCache(String word) throws IllegalArgumentException {	
 		Word w = null;
 		try {
 			InputStream inputStream = new FileInputStream(mConfig.getFile());
 			BufferedReader r = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-			StringBuilder total = new StringBuilder();
+			String f = "";
 			String l;
 			while ((l = r.readLine()) != null) {
-				total.append(l);
+				f += l;
 			}
 			r.close();
 
-			String f = total.toString();
-
 			String[] lines = f.split("<END>");
 			for (String line : lines) {
-
-				String[] splitted = line.split("#");
-				if (splitted[0].equals(word)) {
+				if (line.startsWith(word + "#")) {
+					String[] splitted = line.split("#");
 					String[] syns = {};
 					if (splitted.length > 3)
 						syns = splitted[3].split(";");
+
 					w = new Word(splitted[0], splitted[1], Integer.parseInt(splitted[2]), syns);
+					break;
 				}
 			}
 			if (w == null)
 				throw new IllegalArgumentException("The word " + word + " was not found in the cache");
+
 			getLogger().i("WORD_CACHING", String.format(CacheLoggingMessages.CACHE_READ_SUCCESS, word));
 		} catch (Exception ex) {
 			getLogger().e("WORD_CACHING", String.format(CacheLoggingMessages.CACHE_READ_ERROR, word, ex.getMessage()));
 		}
-
 		return w;
 	}
 
@@ -155,18 +154,16 @@ public class WordCache extends Loggable {
 		try {
 			InputStream inputStream = new FileInputStream(mConfig.getFile());
 			BufferedReader r = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-			StringBuilder total = new StringBuilder();
+			String f = "";
 			String l;
 			while ((l = r.readLine()) != null) {
-				total.append(l);
+				f += l;
 			}
 			r.close();
 
-			String f = total.toString();
-
 			String[] lines = f.split("<END>");
 			for (String line : lines) {
-				if (line.split("#")[0].equals(word)) {
+				if (line.startsWith(word + "#")) {
 					getLogger().i("WORD_CACHING",
 							String.format(CacheLoggingMessages.CACHE_CONTAINS_SUCCESS, word, true));
 					return true;
