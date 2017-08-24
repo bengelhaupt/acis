@@ -7,6 +7,7 @@ package de.bensoft.acis.core.language;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -126,13 +127,14 @@ public class WordCache extends Loggable {
 				}
 			}
 			r.close();
-			if (w == null)
-				throw new IllegalArgumentException("The word " + word + " was not found in the cache");
-
-			getLogger().i("WORD_CACHING", String.format(CacheLoggingMessages.CACHE_READ_SUCCESS, word));
-		} catch (Exception ex) {
-			getLogger().e("WORD_CACHING", String.format(CacheLoggingMessages.CACHE_READ_ERROR, word, ex.getMessage()));
+		} catch (IOException e) {
+			getLogger().e("WORD_CACHING", String.format(CacheLoggingMessages.CACHE_READ_ERROR, word, e.getMessage()));
 		}
+
+		if (w == null)
+			throw new IllegalArgumentException("The word " + word + " was not found in the cache");
+
+		getLogger().i("WORD_CACHING", String.format(CacheLoggingMessages.CACHE_READ_SUCCESS, word));
 		return w;
 	}
 
