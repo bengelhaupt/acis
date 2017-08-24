@@ -66,6 +66,7 @@ class Matcher extends Loggable {
 	 */
 	public MatchResult[] getMatches(Sentence sentence, SentenceObjectSet sentenceObjects, ContextStack generalContext,
 			float threshold, WeightSet weightset) {
+
 		getLogger().i(LOG_TAG, "Matcher started for Sentence '" + sentence.getText() + "' with threshold "
 				+ String.valueOf(threshold));
 
