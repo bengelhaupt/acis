@@ -207,31 +207,25 @@ public class BensoftGermanWiktionary extends Loggable implements Language {
 
 	public Word getWord(String word) {
 		try {
-			if (mCache.isInCache(word)) {
-				Word w = mCache.readFromCache(word);
-				w.setTypedForm(word);
-				return w;
-			} else {
-				try {
-					// trying getting the word info and setting it's properties
-					Word w = WiktionaryWordInfoAPI.getWord(word);
-					String normal = w.getNormalForm();
-					int type = w.getType();
-					String[] synonyms = w.getSynonyms();
-					getLogger().i(LOG_TAG, "Fetching Word data of '" + word + "' was successful.");
-					Word fword = new Word(word, normal, type, synonyms);
-					mCache.writeInCache(fword);
-					return fword;
-				} catch (Exception ex) {
-					getLogger().i(LOG_TAG, String.format(
-							"An error occured while fetching the Word data of '%1$s' : %2$s", word, ex.toString()));
-				}
+			Word w = mCache.readFromCache(word);
+			w.setTypedForm(word);
+			return w;
+		} catch (IllegalArgumentException e) {
+			try {
+				// trying getting the word info and setting it's properties
+				Word w = WiktionaryWordInfoAPI.getWord(word);
+				String normal = w.getNormalForm();
+				int type = w.getType();
+				String[] synonyms = w.getSynonyms();
+				getLogger().i(LOG_TAG, "Fetching Word data of '" + word + "' was successful.");
+				Word fword = new Word(word, normal, type, synonyms);
+				mCache.writeInCache(fword);
+				return fword;
+			} catch (Exception ex) {
+				getLogger().i(LOG_TAG, String.format("An error occured while fetching the Word data of '%1$s' : %2$s",
+						word, ex.toString()));
 			}
-		} catch (Exception ex) {
-			getLogger().i(LOG_TAG, String.format(
-					"An error occured while trying to read the Word '%1$s' from the cache: %2$s", word, ex.toString()));
 		}
-
 		return null;
 	}
 
@@ -253,7 +247,7 @@ public class BensoftGermanWiktionary extends Loggable implements Language {
 		public static final int Other = 50;
 	}
 
-	public static class WiktionaryWordInfoAPI {
+	static class WiktionaryWordInfoAPI {
 
 		private static class Utils {
 
