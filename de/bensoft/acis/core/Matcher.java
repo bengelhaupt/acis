@@ -55,11 +55,14 @@ class Matcher extends Loggable {
 	 * @param sentenceObjects
 	 *            The {@link SentenceObjectSet} resulting from an analysis of
 	 *            the input.
+	 * @param generalContext
+	 *            The root {@link ContextStack} to use for global context
+	 *            matching.
 	 * @param threshold
 	 *            The score threshold under which a {@link MatchResult} of an
 	 *            {@link Action} is not contained in the returning array.
 	 * @param weightset
-	 *            The {@link Matcher.WeightSet} containing the weights used for
+	 *            The {@link WeightSet} containing the weights used for
 	 *            comparison.
 	 * @return An array of {@link MatchResult}s with a matching score above the
 	 *         {@code threshold}.
