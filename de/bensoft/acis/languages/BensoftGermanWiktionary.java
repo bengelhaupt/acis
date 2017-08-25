@@ -44,15 +44,12 @@ public class BensoftGermanWiktionary extends Loggable implements Language {
 
 		// defining the sentence type based on it's ending character
 		Sentence.SentenceType type;
-		if (s.getText().trim().endsWith("?")) {
+		if (s.getText().trim().endsWith("?"))
 			type = Sentence.SentenceType.Interrogative;
-		} else {
-			if (s.getText().trim().endsWith("!")) {
-				type = Sentence.SentenceType.Imperative;
-			} else {
-				type = Sentence.SentenceType.Statement;
-			}
-		}
+		else if (s.getText().trim().endsWith("!"))
+			type = Sentence.SentenceType.Imperative;
+		else
+			type = Sentence.SentenceType.Statement;
 
 		// eliminating some characters from the text and creating the word list
 		String[] wordlist = s.getTypedWords();
@@ -229,7 +226,7 @@ public class BensoftGermanWiktionary extends Loggable implements Language {
 		return null;
 	}
 
-	public final class GermanWordType extends WordType {
+	private final class GermanWordType extends WordType {
 		public static final int Noun = 0;
 		public static final int PersonalPronoun = 1;
 		public static final int OtherPronoun = 2;
@@ -247,7 +244,7 @@ public class BensoftGermanWiktionary extends Loggable implements Language {
 		public static final int Other = 50;
 	}
 
-	static class WiktionaryWordInfoAPI {
+	private static class WiktionaryWordInfoAPI {
 
 		private static class Utils {
 
