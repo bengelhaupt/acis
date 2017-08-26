@@ -1,0 +1,60 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:defaultValue=""
+        android:inputType="text"
+        android:key="username"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Username" />
+
+    <EditTextPreference
+        android:defaultValue=""
+        android:inputType="textPassword"
+        android:key="password"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Password" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="inputrequests"
+        android:title="Input requests via speech recognition"/>
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="serveroutput"
+        android:title="Force server output" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="serveroutputifwifi"
+        android:title="Server output automatically in home WiFi"/>
+
+    <EditTextPreference
+        android:defaultValue=""
+        android:inputType="text"
+        android:key="homewifiname"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:dependency="serveroutputifwifi"
+        android:singleLine="true"
+        android:title="Name of home WiFi" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="localifserver"
+        android:title="Local output while server output"/>
+
+    <EditTextPreference
+        android:defaultValue=""
+        android:inputType="textUri"
+        android:key="endpoint"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Endpoint" />
+
+</PreferenceScreen>
