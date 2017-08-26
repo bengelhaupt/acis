@@ -23,10 +23,11 @@
 						<h2 id="wherecanigetit">Where can I get it?</h2>
 						<p>The code of ACIS is publicly available on my <a href="https://github.com/bensoftde">GitHub</a>. It is published under MIT license. If you do not want to clone the repository, a pre-built .jar file is in the root of the master branch.</p>
 						<h2 id="getstarted">Get started</h2>
-						<p>There is a main repository <a href= "https://github.com/bensoftde/acis">acis</a> which contains the core system as well as several helpful tools of which some are explained below.<br>
+						<p>
 						<table class="bordered">
+						<tr><td><a href="https://github.com/bensoftde/acis/tree/master/de/bensoft/acis/core">core</a></td><td>The core system.</td></tr>
 						<tr><td><a href="https://github.com/bensoftde/acis/tree/master/de/bensoft/acis/server">server</a></td><td>A simple HTTP server which can be used to interact with a device.</td></tr>
-						<tr><td><a href="https://github.com/bensoftde/acis/tree/master/de/bensoft/acis/utils">utils</a></td><td>Contains common utilities used by other repositories/packages.</td></tr>
+						<tr><td><a href="https://github.com/bensoftde/acis/tree/master/de/bensoft/acis/utils">utils</a></td><td>Contains common utilities used by other packages.</td></tr>
 						<tr><td><a href="https://github.com/bensoftde/acis/tree/master/de/bensoft/acis/languages">languages</a></td><td>Contains some language interfaces for ACIS. The <a href="https://github.com/bensoftde/acis/blob/master/de/bensoft/acis/languages/Unified.java"><i>Unified</i></a> language interface can be used with any language. Note: German and English are available in high-quality mode. Please <a href="mailto:code@bensoft.de">contact</a> me if you want to contribute a language interface.</td></tr>
 						<tr><td><a href="https://github.com/bensoftde/acis/tree/master/samples">samples</a></td><td>Contains samples, code snippets and implementation examples. An Android client app which can be used to send requests to the default server interface provided by the <a href="https://github.com/bensoftde/acis/blob/master/de/bensoft/acis/server/contexts/SampleRequestHandler.java">SampleRequestHandler</a> can be found <a href="https://github.com/bensoftde/acis/tree/master/samples/client_app">here</a>.</td></tr>
 						</table>
