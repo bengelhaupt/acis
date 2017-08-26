@@ -28,9 +28,10 @@ import de.bensoft.acis.utils.SimpleHTTPGetRequestSender;
 /**
  * This is a Language for the ACIS system representing German. See the
  * {@link de.bensoft.acis.core.language.Language} interface for more information
- * on creating own Languages.
+ * on creating own Languages.<br>
+ * <br>
  *
- * This should be taken as an example for a Language implementation.
+ * This language interface is based on the Wiktionary API.
  */
 public class BensoftGermanWiktionary extends Loggable implements Language {
 
@@ -221,9 +222,9 @@ public class BensoftGermanWiktionary extends Loggable implements Language {
 			} catch (Exception ex) {
 				getLogger().i(LOG_TAG, String.format("An error occured while fetching the Word data of '%1$s' : %2$s",
 						word, ex.toString()));
+				return new Word(word, word, WordType.NotFound, new String[0]);
 			}
 		}
-		return null;
 	}
 
 	private final class GermanWordType extends WordType {
