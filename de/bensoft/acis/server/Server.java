@@ -337,6 +337,7 @@ public class Server extends Loggable implements Runnable {
 			output.println("HTTP/1.0 " + result.getStatusCode());
 			output.println("Content-Type: " + result.getContentType());
 			output.println("Content-Length: " + data.length);
+			output.println("Access-Control-Allow-Origin: *");
 			output.println();
 			output.write(data);
 			output.flush();
