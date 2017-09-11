@@ -132,7 +132,10 @@ public class SampleRequestHandler implements ServerContextHandler {
 								currentResponse = STANDARD_RESPONSE + "<response version=\"" + ACIS.LIBRARY_VERSION
 										+ "\"><type>NO_RESULTS</type></response>";
 							MatchResult matchResult = super.onGetBestResult(results);
-							matchScore = matchResult.getScore();
+							if (matchResult != null)
+								matchScore = matchResult.getScore();
+							else
+								matchScore = 0f;
 							return matchResult;
 						}
 
