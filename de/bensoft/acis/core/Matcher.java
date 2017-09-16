@@ -302,7 +302,7 @@ class Matcher extends Loggable {
 		float totalmaxpossible = 0;
 
 		for (SentenceObject t : target) {
-			float maxmaxpossible = 1;
+			float maxmaxpossible = 0;
 			float maxscore = 0;
 
 			for (SentenceObject e : element) {
@@ -337,7 +337,10 @@ class Matcher extends Loggable {
 					}
 				}
 
-				if (score / maxpossible > maxscore / maxmaxpossible) {
+				if (maxmaxpossible == 0) {
+					maxscore = score;
+					maxmaxpossible = maxpossible;
+				} else if (score / maxpossible > maxscore / maxmaxpossible) {
 					maxscore = score;
 					maxmaxpossible = maxpossible;
 				}
