@@ -46,7 +46,7 @@ public class BensoftEnglishWordNet extends Loggable implements Language {
 
 	@Override
 	public Word getWord(String word) {
-		Word w = new Word(word, word.toLowerCase(), WordType.NotFound, new String[0]);
+		Word w = new Word(word, word, WordType.NotFound, new String[0]);
 		try {
 			w = mCache.readFromCache(word);
 			w.setTypedForm(word);
@@ -54,7 +54,7 @@ public class BensoftEnglishWordNet extends Loggable implements Language {
 		} catch (IllegalArgumentException e) {
 			try {
 				String request = SimpleHTTPGetRequestSender.downloadData("http://wordnetweb.princeton.edu/perl/webwn?s="
-						+ word.toLowerCase() + "&sub=Search+WordNet&o2=&o0=&o8=1&o1=&o7=&o5=&o9=&o6=&o3=&o4=");
+						+ word + "&sub=Search+WordNet&o2=&o0=&o8=1&o1=&o7=&o5=&o9=&o6=&o3=&o4=");
 
 				if (request.indexOf("</h3>\n</body>") == -1) {
 					int h3 = request.indexOf("<div class=\"key\">");
@@ -79,7 +79,7 @@ public class BensoftEnglishWordNet extends Loggable implements Language {
 					String normalForm = word.toLowerCase();
 					h3 = request.indexOf("<div class=\"key\">");
 					if (request.toLowerCase().indexOf("<b>" + word.toLowerCase() + "</b>", h3) == -1) {
-						normalForm = request.substring(h3).split("<li>.+?(<a href.+?\">)")[1].split("</a>")[0];
+						normalForm = request.toLowerCase().substring(h3).split("<li>.+?(<a href.+?\">)")[1].split("</a>")[0];
 						request = SimpleHTTPGetRequestSender
 								.downloadData("http://wordnetweb.princeton.edu/perl/webwn?s=" + normalForm
 										+ "&sub=Search+WordNet&o2=&o0=&o8=1&o1=&o7=&o5=&o9=&o6=&o3=&o4=");
@@ -174,10 +174,10 @@ public class BensoftEnglishWordNet extends Loggable implements Language {
 			words[i] = toSynthesizeWord(sentence.getWords()[i]);
 
 		for (int position = 0; position < words.length; position++) {
-			if (words[position].getType() == EnglishWordType.Noun) {
+			if (words[position].getType() == EnglishWordType.Noun && !words[position].isSynthesized()) {
 				if (position > 0) {
 					if (words[position - 1].getType() == EnglishWordType.Adjective
-							|| words[position - 1].getType() == EnglishWordType.Adverb) {
+							|| words[position - 1].getType() == EnglishWordType.Adverb && !words[position].isSynthesized() && !words[position - 1].isSynthesized()) {
 						whats.add(new SentenceObject(words[position], words[position - 1]));
 						words[position].setSynthesized(true);
 						words[position - 1].setSynthesized(true);
