@@ -46,7 +46,7 @@ public class BensoftEnglishWordNet extends Loggable implements Language {
 
 	@Override
 	public Word getWord(String word) {
-		Word w = new Word(word, word, WordType.NotFound, new String[0]);
+		Word w = new Word(word, word.toLowerCase(), WordType.NotFound, new String[0]);
 		try {
 			w = mCache.readFromCache(word);
 			w.setTypedForm(word);
@@ -76,7 +76,7 @@ public class BensoftEnglishWordNet extends Loggable implements Language {
 
 					int type = types.get(0);
 
-					String normalForm = word;
+					String normalForm = word.toLowerCase();
 					h3 = request.indexOf("<div class=\"key\">");
 					if (request.toLowerCase().indexOf("<b>" + word.toLowerCase() + "</b>", h3) == -1) {
 						normalForm = request.substring(h3).split("<li>.+?(<a href.+?\">)")[1].split("</a>")[0];
