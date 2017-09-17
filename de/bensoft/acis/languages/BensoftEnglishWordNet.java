@@ -56,13 +56,6 @@ public class BensoftEnglishWordNet extends Loggable implements Language {
 				String request = SimpleHTTPGetRequestSender.downloadData("http://wordnetweb.princeton.edu/perl/webwn?s="
 						+ word + "&sub=Search+WordNet&o2=&o0=&o8=1&o1=&o7=&o5=&o9=&o6=&o3=&o4=");
 
-				String normalForm = null;
-				if (!word.toLowerCase().equals(word) && request.indexOf("</h3>\n</body>") != -1) {
-					request = SimpleHTTPGetRequestSender.downloadData("http://wordnetweb.princeton.edu/perl/webwn?s="
-							+ word.toLowerCase() + "&sub=Search+WordNet&o2=&o0=&o8=1&o1=&o7=&o5=&o9=&o6=&o3=&o4=");
-					normalForm = word.toLowerCase();
-				}
-
 				if (request.indexOf("</h3>\n</body>") == -1) {
 					int h3 = request.indexOf("<div class=\"key\">");
 					List<Integer> types = new ArrayList<>(0);
@@ -83,15 +76,13 @@ public class BensoftEnglishWordNet extends Loggable implements Language {
 
 					int type = types.get(0);
 
-					if (normalForm == null) {
-						normalForm = word;
-						h3 = request.indexOf("<div class=\"key\">");
-						if (request.toLowerCase().indexOf("<b>" + word.toLowerCase() + "</b>", h3) == -1) {
-							normalForm = request.substring(h3).split("<li>.+?(<a href.+?\">)")[1].split("</a>")[0];
-							request = SimpleHTTPGetRequestSender
-									.downloadData("http://wordnetweb.princeton.edu/perl/webwn?s=" + normalForm
-											+ "&sub=Search+WordNet&o2=&o0=&o8=1&o1=&o7=&o5=&o9=&o6=&o3=&o4=");
-						}
+					String normalForm = word;
+					h3 = request.indexOf("<div class=\"key\">");
+					if (request.toLowerCase().indexOf("<b>" + word.toLowerCase() + "</b>", h3) == -1) {
+						normalForm = request.substring(h3).split("<li>.+?(<a href.+?\">)")[1].split("</a>")[0];
+						request = SimpleHTTPGetRequestSender
+								.downloadData("http://wordnetweb.princeton.edu/perl/webwn?s=" + normalForm
+										+ "&sub=Search+WordNet&o2=&o0=&o8=1&o1=&o7=&o5=&o9=&o6=&o3=&o4=");
 					}
 
 					h3 = request.indexOf("<div class=\"key\">");
