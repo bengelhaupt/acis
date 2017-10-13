@@ -107,7 +107,7 @@ public class MainActivity extends Activity {
             @Override
             public UserInfo getUserInfo() {
                 return new UserInfo("Ben-Noah", "Engelhaupt", new String[]{"Ben"}, 18, "code@bensoft.de",
-                        "Bornstraße 21, 99817 Eisenach, Deutschland");
+                        "Eisenach, Deutschland");
             }
 
             @Override
