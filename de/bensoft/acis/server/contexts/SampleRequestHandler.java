@@ -11,6 +11,7 @@ import java.util.Random;
 import de.bensoft.acis.core.ACIS;
 import de.bensoft.acis.core.Action;
 import de.bensoft.acis.core.ActionResult;
+import de.bensoft.acis.core.ActionResult.ActionResultCode;
 import de.bensoft.acis.core.MatchResult;
 import de.bensoft.acis.core.Parameter;
 import de.bensoft.acis.core.WeightSet;
@@ -130,7 +131,7 @@ public class SampleRequestHandler implements ServerContextHandler {
 						public MatchResult onGetBestResult(MatchResult[] results) {
 							if (results.length == 0)
 								currentResponse = STANDARD_RESPONSE + "<response version=\"" + ACIS.LIBRARY_VERSION
-										+ "\"><type>NO_RESULTS</type></response>";
+								+ "\"><type>NO_RESULTS</type></response>";
 							MatchResult matchResult = super.onGetBestResult(results);
 							if (matchResult != null)
 								matchScore = matchResult.getScore();
@@ -256,8 +257,14 @@ public class SampleRequestHandler implements ServerContextHandler {
 								}
 							};
 
-							ActionResult result = action.getActionMethod()
-									.run(system.getEnvironment(action.getPackage(), env), sentence, parameter);
+							ActionResult result;
+							try {
+								result = action.getActionMethod().run(system.getEnvironment(action.getPackage(), env),
+										sentence, parameter);
+							} catch (Exception e) {
+								result = new ActionResult(ActionResultCode.INTERNAL_ERROR, e.toString());
+							}
+
 							currentResponse = STANDARD_RESPONSE + "<response version=\"" + ACIS.LIBRARY_VERSION
 									+ "\"><type>RESULT</type><name>" + action.getName() + "</name><result><code>"
 									+ result.getResultCode() + "</code><message>" + result.getMessage()
